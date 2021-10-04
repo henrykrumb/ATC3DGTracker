@@ -6,39 +6,42 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 find_package(LibUSB)
 
-INCLUDE_DIRECTORIES(include)
+include_directories(include)
 
-ADD_LIBRARY(atclib SHARED lib/PointATC3DG.cpp)
-TARGET_LINK_LIBRARIES(atclib ${LIBUSB_LIBRARY})
-SET_TARGET_PROPERTIES(atclib
-    PROPERTIES
-    VERSION 0.0.1
-    SOVERSION 0.0.1
+
+# build shared library
+add_library(atclib SHARED src/atclib.cpp)
+target_link_libraries(atclib ${LIBUSB_LIBRARY})
+set_target_properties(atclib
+	PROPERTIES
+	VERSION 0.0.1
+	SOVERSION 0.0.1
 )
-    
-    
-ADD_EXECUTABLE(atcTest src/PointATC3DG_test.cpp)
+
+
+# build example
+ADD_EXECUTABLE(atcTest examples/atcTest.cpp)
 TARGET_LINK_LIBRARIES(atcTest atclib)
 SET_TARGET_PROPERTIES(atcTest PROPERTIES OUTPUT_NAME atcTest)
 
-INSTALL(TARGETS
-    atcTest
-RUNTIME DESTINATION bin)
 
 
-INSTALL(TARGETS
-    atclib
-DESTINATION
-    lib
-PERMISSIONS
-    OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+INSTALL(TARGETS atcTest RUNTIME DESTINATION /usr/bin)
+INSTALL(
+	TARGETS atclib
+	DESTINATION /usr/lib
+	PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
 
-INSTALL(FILES 
-    include/Utils.h
-    include/PointATC3DG.h
-DESTINATION
-    include
-PERMISSIONS
-    OWNER_READ GROUP_READ WORLD_READ
+INSTALL(
+	FILES include/utils.h include/atclib.h
+	DESTINATION include
+	PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
+
+INSTALL(
+	FILES lib/udev/rules.d/99-libusb.rules
+	DESTINATION lib/udev/rules.d
+	PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+)
+

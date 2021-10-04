@@ -1,8 +1,8 @@
 #include <iostream>
 #include <algorithm>
 
-#include "Utils.h"
-#include "PointATC3DG.h"
+#include "utils.h"
+#include "atclib.h"
 
 
 int main( int argc, char** argv )

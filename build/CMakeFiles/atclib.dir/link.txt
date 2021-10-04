@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,libatclib.so.0.0.1 -o libatclib.so.0.0.1 CMakeFiles/atclib.dir/src/atclib.cpp.o  -lusb 

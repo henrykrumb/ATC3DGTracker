@@ -3,7 +3,7 @@
 // Linux USB driver for Ascension 3dg
 //
 
-#include <PointATC3DG.h>
+#include "atclib.h"
 
 #include <usb.h>
 
