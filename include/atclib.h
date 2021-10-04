@@ -1,5 +1,5 @@
-#ifndef _PointATC3DG_
-#define _PointATC3DG_
+#ifndef _ATC3DG_
+#define _ATC3DG_
 
 // Device USB Vendor ID (idVendor)
 enum BirdVendor {
@@ -20,10 +20,10 @@ const int BIRD_EP_IN = 0x86;
 struct usb_device;
 struct usb_dev_handle;
 
-class PointATC3DG {
+class ATC3DG {
 public:
-    PointATC3DG(unsigned int productId, unsigned int vendorId = ASCENSION);
-    ~PointATC3DG();
+    ATC3DG(unsigned int productId, unsigned int vendorId = ASCENSION);
+    ~ATC3DG();
 
     // evaluate whether initialized properly
     bool operator!() const;
@@ -60,7 +60,6 @@ protected:
     void read(unsigned int bytes);
     void write(unsigned int bytes);
 
-protected:
     struct usb_device *dev;
     struct usb_dev_handle *handle;
     
@@ -75,5 +74,5 @@ protected:
     double posk;
 };
 
-#endif // _PointATC3DG_
+#endif // _ATC3DG_
 

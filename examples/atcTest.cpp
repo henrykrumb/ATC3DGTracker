@@ -25,7 +25,7 @@ int main( int argc, char** argv )
         
     }
     
-	PointATC3DG bird(product);
+	ATC3DG bird(product);
 
 	if( !bird ) return -1;
 

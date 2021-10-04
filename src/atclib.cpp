@@ -1,15 +1,17 @@
-// PointATC3DG.cpp
-//
-// Linux USB driver for Ascension 3dg
-//
-
-#include "atclib.h"
-
-#include <usb.h>
+/*! ATC3DG.cpp
+ *
+ * Linux USB driver for Ascension 3dg
+ */
 
 #include <cstdio>
 #include <cstdarg>
 #include <algorithm>
+#include <iostream>
+
+#include <usb.h>
+
+#include "atclib.h"
+
 
 const int DELAY = 500;
 
@@ -45,19 +47,19 @@ const double POSK36 = 36 * WTF * INCH_TO_METER;
 const double POSK72 = 72 * WTF * INCH_TO_METER;
 
 
-void PointATC3DG::write(unsigned int bytes) {
+void ATC3DG::write(unsigned int bytes) {
     ret = usb_bulk_write( handle, BIRD_EP_OUT, dataout, bytes, DELAY);
 }
 
 
-void PointATC3DG::read(unsigned int bytes) {
+void ATC3DG::read(unsigned int bytes) {
     do {
         ret = usb_bulk_read( handle, BIRD_EP_IN, datain, bytes, DELAY);      
     } while (ret == 0);
 }
 
 
-PointATC3DG::PointATC3DG(unsigned int productId, unsigned int vendorId)
+ATC3DG::ATC3DG(unsigned int productId, unsigned int vendorId)
 	: vendorId(vendorId),
 	productId(productId),
 	isOk(true)
@@ -128,7 +130,7 @@ PointATC3DG::PointATC3DG(unsigned int productId, unsigned int vendorId)
 }
 
 
-PointATC3DG::~PointATC3DG()
+ATC3DG::~ATC3DG()
 {
     if (dev && handle) {
         dataout[0] = SLEEP;
@@ -138,19 +140,19 @@ PointATC3DG::~PointATC3DG()
 }
 
 
-bool PointATC3DG::operator!() const
+bool ATC3DG::operator!() const
 {
     return !isOk;
 }
 
 
-bool PointATC3DG::ok() const
+bool ATC3DG::ok() const
 {
     return isOk;
 }
 
 
-int PointATC3DG::setSuddenOutputChangeLock( int iSensorId )
+int ATC3DG::setSuddenOutputChangeLock(int iSensorId)
 {
     dataout[0] = 0xf1 + iSensorId;
     dataout[1] = CHANGE_VALUE;
@@ -162,7 +164,7 @@ int PointATC3DG::setSuddenOutputChangeLock( int iSensorId )
 }
 
 
-int PointATC3DG::setSensorQuaternion( int iSensorId )
+int ATC3DG::setSensorQuaternion(int iSensorId)
 {
     dataout[0] = 0xf1 + iSensorId;
     dataout[1] = POS_QUAT;
@@ -172,7 +174,7 @@ int PointATC3DG::setSensorQuaternion( int iSensorId )
 }
 
 
-int PointATC3DG::setSensorRotMat(int iSensorId)
+int ATC3DG::setSensorRotMat(int iSensorId)
 {
     dataout[0] = 0xf1 + iSensorId;
     dataout[1] = POS_MAT;
@@ -182,19 +184,19 @@ int PointATC3DG::setSensorRotMat(int iSensorId)
 }
 
 
-int PointATC3DG::setSensorTopHemisphere(int iSensorId)
+int ATC3DG::setSensorTopHemisphere(int iSensorId)
 {
     return check_bird_errors();
 }
 
 
-int PointATC3DG::setSensorHemisphere(int iSensorId, char cSphereId)
+int ATC3DG::setSensorHemisphere(int iSensorId, char cSphereId)
 {
     return check_bird_errors();
 }
 
 
-int PointATC3DG::setMeasurementRate(double dRate)
+int ATC3DG::setMeasurementRate(double dRate)
 {
     short sRate = (short) (dRate * 256);
     dataout[0] = CHANGE_VALUE;
@@ -207,7 +209,7 @@ int PointATC3DG::setMeasurementRate(double dRate)
 }
 
 
-int PointATC3DG::getNumberOfSensors(void)
+int ATC3DG::getNumberOfSensors(void)
 {
     int nSensors = 0;
     for (char i = 0x00 ; i < 0x04 ; ++i) {
@@ -227,7 +229,7 @@ int PointATC3DG::getNumberOfSensors(void)
     return nSensors;
 }
 
-int PointATC3DG::getCoordinatesAngles( int iSensorId,
+int ATC3DG::getCoordinatesAngles( int iSensorId,
                      double& dX, double& dY, double& dZ,
                      double& dAzimuth, double& dElevation, double& dRoll )
 {
@@ -262,7 +264,7 @@ int PointATC3DG::getCoordinatesAngles( int iSensorId,
     return ret;
 }
 
-int PointATC3DG::getCoordinatesMatrix(int iSensorId,
+int ATC3DG::getCoordinatesMatrix(int iSensorId,
                      double& dX, double& dY, double& dZ,
                      double* pMat )
 {
@@ -299,7 +301,7 @@ int PointATC3DG::getCoordinatesMatrix(int iSensorId,
     return ret;
 }
 
-int PointATC3DG::getCoordinatesQuaternion( int iSensorId,
+int ATC3DG::getCoordinatesQuaternion( int iSensorId,
                                            double& dX, double& dY, double& dZ,
                                            double* quat )
 {
@@ -336,7 +338,7 @@ int PointATC3DG::getCoordinatesQuaternion( int iSensorId,
     return ret;
 }
 
-bool PointATC3DG::transmitterAttached()
+bool ATC3DG::transmitterAttached()
 {
     dataout[0] = EXAMINE_VALUE;
     dataout[1] = TRANSMITTER_SERIAL_NUMBER;
@@ -351,7 +353,7 @@ bool PointATC3DG::transmitterAttached()
     return false;
 }
 
-bool PointATC3DG::sensorAttached(const int& iSensorId)
+bool ATC3DG::sensorAttached(const int& iSensorId)
 {
     dataout[0] = 0xf1 + iSensorId;
     dataout[1] = EXAMINE_VALUE;
@@ -368,7 +370,7 @@ bool PointATC3DG::sensorAttached(const int& iSensorId)
     return false;
 }
 
-struct usb_device* PointATC3DG::find_device( unsigned short iVendorId, unsigned short iProductId )
+struct usb_device* ATC3DG::find_device( unsigned short iVendorId, unsigned short iProductId )
 {
     struct usb_bus *bus;
     struct usb_device *dev;
@@ -387,7 +389,7 @@ struct usb_device* PointATC3DG::find_device( unsigned short iVendorId, unsigned 
     return NULL;
 }
 
-int PointATC3DG::check_bird_errors( void )
+int ATC3DG::check_bird_errors( void )
 {
     bool fatal = false;
     dataout[0] = EXAMINE_VALUE;
@@ -485,7 +487,7 @@ int PointATC3DG::check_bird_errors( void )
     return datain[0];
 }
 
-void PointATC3DG::error( int val, const char* msg, ... )
+void ATC3DG::error(int val, const char* msg, ... )
 {
     va_list ap;
     va_start( ap, msg);
