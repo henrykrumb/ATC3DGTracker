@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/atcTest.dir/examples/atcTest.cpp.o -o atcTest  -Wl,-rpath,/home/henry/synced/job/PhD/research/ATC3DGTracker/build: libatclib.so.0.0.1 -lusb 

@@ -1,8 +1,0 @@
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/install/strip.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/install/local.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/install.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/list_install_components.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/rebuild_cache.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/edit_cache.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/atcTest.dir
-/home/henry/synced/job/PhD/research/ATC3DGTracker/build/CMakeFiles/atclib.dir

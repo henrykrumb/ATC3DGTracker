@@ -26,22 +26,29 @@ SET_TARGET_PROPERTIES(atcTest PROPERTIES OUTPUT_NAME atcTest)
 
 
 
-INSTALL(TARGETS atcTest RUNTIME DESTINATION /usr/bin)
-INSTALL(
+install(TARGETS atcTest RUNTIME DESTINATION /usr/bin)
+install(
 	TARGETS atclib
 	DESTINATION /usr/lib
 	PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
 )
 
-INSTALL(
-	FILES include/utils.h include/atclib.h
+install(
+	FILES include/atclib.h
 	DESTINATION include
 	PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
 
-INSTALL(
+install(
 	FILES lib/udev/rules.d/99-libusb.rules
 	DESTINATION lib/udev/rules.d
 	PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
 
+# reload udev rules
+install(
+	CODE "execute_process(COMMAND udevadm control --reload-rules)"
+)
+install(
+	CODE "execute_process(COMMAND udevadm trigger)"
+)

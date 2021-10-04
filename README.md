@@ -1,47 +1,46 @@
-README
-------------
+# README
+
 * User rights:
     This software has been written originally by an unknown customer of NDI Europe GmbH.
     It has been refactored, packed into a cmake project and uploaded to github by
     Christoph Jud (christoph.jud@unibas.ch) with the Apache 2.0 license.
-    
+
     Further editing by Marco Esposito (marco.esposito@tum.de).
 
-* Prerequisites:
+## Prerequisites
     Have the development release libusb installed (this should be easy to do through your
     Linux distribution's package management system, e.g., YaST in SUSE Linux)
 
-* Files:
-    lib/PointATC3DG.cpp
+## Files
+	* **src/atclib.cpp**
       Driver, based on libusb
 
-    include/PointATC3DG.h
+	* ** include/atclib.h**
       Header file containing declaration of driver functions.
 
-    src/PointATC3DG_test.cpp 
+	* **examples/atcTest.cpp**
       Example commandline program. Continuously outputs sensor's coordinates
       and rotation angles.
 
-    CMakeLists.txt
-      cmake files to compile driver and example program.
+## Getting Started
 
-
-* Compile:
-    mkdir build
-    cd build
-    ccmake ..
-    c
-    (set CMAKE_BUILD_TYPE to release)
-    (set CMAKE_INSTALL_PREFIX to your installation directory)
-    g
-    make
-    make install
+```bash
+mkdir build
+cd build
+ccmake ..
+c
+(set CMAKE_BUILD_TYPE to release)
+(set CMAKE_INSTALL_PREFIX to your installation directory)
+g
+make
+make install
+```
  
-    This will also compile the example program PointATC3DG_test.cpp
+    This will also compile the example program atcTest.
     Make sure that you have added the directory lib of your installation directory to
     the LD_LIBRARY_PATH.
 
-* Support for medSAFE and trackSTAR / driveBAY
+## Support for medSAFE and trackSTAR / driveBAY
 
     the PointATC3DG class takes product and vendor IDs as arguments.
     Known IDs are listed in the BirdVendor and BirdProduct enums in PointATC3DG.h.
@@ -50,12 +49,12 @@ README
     You can derive missing ids with e.g. lsusb.
 
 
-*libusb configuration:
+## libusb configuration:
     The main problem is to get the access rights to the USB device configured
     correctly. If the example program compiled above works then
     you are done. If not then you will have to configure the permissions.
-   
-    You can try to run ATC3DG_test as user root. If the test program runs
+    
+		You can try to run atcTest as user root. If the test program runs
     as root, but not as a regular user, then you confirmed that you are facing
     a permission problem. In that case keep reading! 
    
@@ -66,12 +65,8 @@ README
     of the device.
    
     This means, basically, finding the udev configuration file that has libusb
-    and fixing it so that it says MODE="0664", GROUP="libusb". You can 
-   
-    copy 99-libusb.rules to /lib/udev/rules.d/  
-
-    as well.
- 
+    and fixing it so that it says MODE="0664", GROUP="libusb".
+		
     In order to get the device to fall into libusb we had to execute
    
       rmmod ehci_hcd
