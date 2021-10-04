@@ -27,9 +27,11 @@ int main( int argc, char** argv )
     
 	ATC3DG bird(product);
 
-	if( !bird ) return -1;
+	if (!bird) {
+		return -1;
+	}
 
-	bird.setSuddenOutputChangeLock( 0 );
+	bird.setSuddenOutputChangeLock(0);
 
 	double dX, dY, dZ, dAzimuth, dElevation, dRoll;
 	
